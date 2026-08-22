@@ -50,7 +50,7 @@ class HidDevice {
  public:
   static void GetDeviceInfo(
       int vid, const std::vector<int> pids, int interfaceNumber,
-      HidDeviceInfo* device_info);
+      int deviceIndex, HidDeviceInfo* device_info); // ipokesnails change
 
   HidDevice(
       int vid, const std::vector<int> pids, int interfaceNum = -1,
