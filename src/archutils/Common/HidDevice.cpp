@@ -20,10 +20,11 @@ std::vector<int> make_pids(int base_pid, int size) {
 
 HidDevice::HidDevice(
     int vid, const std::vector<int> pids, int interfaceNum,
-    bool autoReconnection, bool nonBlockingRead)
+    bool autoReconnection, bool nonBlockingRead, int deviceIndex)
     : vid{vid},
       pids{pids},
       interfaceNum{interfaceNum},
+      deviceIndex{deviceIndex}, // ipokesnails change
       autoReconnection{autoReconnection},
       nonBlockingRead{nonBlockingRead} {
   bool result = TryConnect();
@@ -39,10 +40,10 @@ HidDevice::HidDevice(
 
 HidDevice::HidDevice(
     int vid, int pid, int interfaceNum, bool autoReconnection,
-    bool nonBlockingRead)
+    bool nonBlockingRead, int deviceIndex) // ipokesnails change
     : HidDevice(
-          vid, make_pids(pid, 1), interfaceNum, autoReconnection,
-          nonBlockingRead) {}
+        vid, make_pids(pid, 1), interfaceNum, autoReconnection,
+        nonBlockingRead, deviceIndex) {} // ipokesnails change
 
 HidDevice::~HidDevice() {
   Close();
