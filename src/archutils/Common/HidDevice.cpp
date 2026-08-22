@@ -68,10 +68,13 @@ bool HidDevice::Open(const char* path) {
   }
 
   if (handle) {
-    LOG->Info(
-        "HidDevice 0x%04x:0x%04x %d opened by path %s", foundDeviceInfo.vid,
-        foundDeviceInfo.pid, foundDeviceInfo.interfaceNum,
-        foundDeviceInfo.path);
+LOG->Info(
+    "HidDevice index %d 0x%04x:0x%04x %d opened by path %s",
+    deviceIndex,
+    foundDeviceInfo.vid,
+    foundDeviceInfo.pid,
+    foundDeviceInfo.interfaceNum,
+    foundDeviceInfo.path);
   } else {
     LOG->Warn(
         "HidDevice 0x%04x:0x%04x %d could not be opened by path %s. Are "
@@ -84,12 +87,22 @@ bool HidDevice::Open(const char* path) {
 }
 
 bool HidDevice::TryConnect() {
+  LOG->Info( // ipokesnails change
+      "HidDevice: trying device index %d for VID 0x%04x", // ipokesnails change
+      deviceIndex, vid); // ipokesnails change
   GetDeviceInfo(vid, pids, interfaceNum, deviceIndex, &foundDeviceInfo); // ipokesnails change
   
   if (foundDeviceInfo.path == nullptr) {
+    LOG->Warn( // ipokesnails change
+        "HidDevice: device index %d was not found for VID 0x%04x", // ipokesnails change
+        deviceIndex, vid); // ipokesnails change
     return false;
   }
-
+  
+  LOG->Info( // ipokesnails change
+      "HidDevice: device index %d found path %s", // ipokesnails change
+      deviceIndex, foundDeviceInfo.path); // ipokesnails change
+  
   return Open(foundDeviceInfo.path);
 }
 
