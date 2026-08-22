@@ -84,8 +84,8 @@ bool HidDevice::Open(const char* path) {
 }
 
 bool HidDevice::TryConnect() {
-  GetDeviceInfo(vid, pids, interfaceNum, &foundDeviceInfo);
-
+  GetDeviceInfo(vid, pids, interfaceNum, deviceIndex, &foundDeviceInfo); // ipokesnails change
+  
   if (foundDeviceInfo.path == nullptr) {
     return false;
   }
@@ -130,7 +130,7 @@ const std::string HidDevice::GetPidsString(const std::vector<int> pids) {
 
 void HidDevice::GetDeviceInfo(
     int vid, const std::vector<int> pids, int interfaceNumber,
-    HidDeviceInfo* device_info) {
+    int deviceIndex, HidDeviceInfo* device_info) { // ipokesnails change
   bool found{false};
   struct hid_device_info *devs, *cur_dev;
   size_t size = pids.size();
@@ -139,24 +139,29 @@ void HidDevice::GetDeviceInfo(
   cur_dev = devs;
 
   if (devs && cur_dev) {
-    // Look for the desired devices by iterating connected ones
+    int matchingDeviceIndex = 0; // ipokesnails change
+
+    // Look for the desired device by iterating connected ones.
     while (cur_dev) {
+      bool matches = false;
+
       for (size_t i = 0; i < size; i++) {
         if (cur_dev->vendor_id == vid && cur_dev->product_id == pids[i]) {
-          if (interfaceNumber == -1) {
-            found = true;
+          if (interfaceNumber == -1 ||
+              cur_dev->interface_number == interfaceNumber) {
+            matches = true;
             break;
-          } else {
-            if (cur_dev->interface_number == interfaceNumber) {
-              found = true;
-              break;
-            }
           }
         }
       }
 
-      if (found) {
-        break;
+      if (matches) {
+        if (matchingDeviceIndex == deviceIndex) {
+          found = true;
+          break;
+        }
+
+        matchingDeviceIndex++;
       }
 
       cur_dev = cur_dev->next;
