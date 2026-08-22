@@ -17,8 +17,10 @@ static Preference<std::string> g_sPacDriveLightOrdering(
 int iPacDriveLightOrder = 0;
 
 LightsDriver_PacDrive::LightsDriver_PacDrive()
-    : dev{PACDRIVE_VID, make_pids(PACDRIVE_PID, PACDRIVE_PID_MAX),
-          PACDRIVE_INTERFACE} {
+    : dev0{PACDRIVE_VID, make_pids(PACDRIVE_PID, PACDRIVE_PID_MAX), // ipokesnails change
+           PACDRIVE_INTERFACE, true, false, 0}, // ipokesnails change
+      dev1{PACDRIVE_VID, make_pids(PACDRIVE_PID, PACDRIVE_PID_MAX), // ipokesnails change
+           PACDRIVE_INTERFACE, true, false, 1} { // ipokesnails change
   prev_led_state.raw = 0;
   memset(state.raw_state, 0x00, sizeof(state.raw_state));
 
@@ -32,7 +34,7 @@ LightsDriver_PacDrive::LightsDriver_PacDrive()
 LightsDriver_PacDrive::~LightsDriver_PacDrive() {}
 
 void LightsDriver_PacDrive::Set(const LightsState* ls) {
-  if (!dev.FoundOnce()) {
+  if (!dev0.FoundOnce() || !dev1.FoundOnce()) { // ipokesnails change
     return;
   }
 
@@ -164,7 +166,8 @@ void LightsDriver_PacDrive::Set(const LightsState* ls) {
     state.pad0 = 0;
     state.pad1 = 0;
 
-    dev.Write((unsigned char*)&state.raw_state, sizeof(state.raw_state));
+    dev0.Write((unsigned char*)&state.raw_state, sizeof(state.raw_state)); // ipokesnails change
+    dev1.Write((unsigned char*)&state.raw_state, sizeof(state.raw_state)); // ipokesnails change
     prev_led_state = state.leds;
   }
 }
