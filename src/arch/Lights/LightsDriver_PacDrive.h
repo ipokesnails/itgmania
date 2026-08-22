@@ -87,7 +87,8 @@ typedef union {
 
 class LightsDriver_PacDrive : public LightsDriver {
  private:
-  HidDevice dev;
+  HidDevice dev0; // ipokesnails change
+  HidDevice dev1; // ipokesnails change
 
   pacdrive_state_t state;
   pacdrive_leds_t prev_led_state;
