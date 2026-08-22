@@ -34,6 +34,7 @@ class HidDevice {
   int vid;
   const std::vector<int> pids;
   int interfaceNum = -1;
+  int deviceIndex = 0; // ipokesnails change
 
   // Behaviour configuration
   bool autoReconnection = true;
@@ -53,10 +54,11 @@ class HidDevice {
 
   HidDevice(
       int vid, const std::vector<int> pids, int interfaceNum = -1,
-      bool autoReconnection = true, bool nonBlockingRead = false);
+      bool autoReconnection = true, bool nonBlockingRead = false,
+      int deviceIndex = 0); // ipokesnails change
   HidDevice(
       int vid, int pid, int interfaceNum = -1, bool autoReconnection = true,
-      bool nonBlockingRead = false);
+      bool nonBlockingRead = false, int deviceIndex = 0); // ipokesnails change
 
   virtual ~HidDevice();
 
