@@ -974,15 +974,8 @@ bool InputMapper::IsBeingPressed(GameButton MenuI, PlayerNumber pn) const {
   if (MenuI == GameButton_Invalid) {
     return false;
   }
-
   std::vector<GameInput> GameI;
-
-  if (MenuI == GAME_BUTTON_BACK || MenuI == GAME_BUTTON_SELECT) { // ipokesnails change
-    MenuToGame(MenuI, PLAYER_INVALID, GameI); // ipokesnails change
-  } else { // ipokesnails change
-    MenuToGame(MenuI, pn, GameI); // ipokesnails change
-  }
-
+  MenuToGame(MenuI, pn, GameI);
   for (size_t i = 0; i < GameI.size(); i++) {
     if (IsBeingPressed(GameI[i])) {
       return true;
