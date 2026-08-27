@@ -941,9 +941,7 @@ void InputMapper::SetJoinControllers(PlayerNumber pn) {
 
 void InputMapper::MenuToGame(
     GameButton MenuI, PlayerNumber pn, std::vector<GameInput>& GameIout) const {
-  if (g_JoinControllers != PLAYER_INVALID || // ipokesnails change
-      MenuI == GAME_BUTTON_BACK || // ipokesnails change
-      MenuI == GAME_BUTTON_SELECT) { // ipokesnails change
+  if (g_JoinControllers != PLAYER_INVALID) {
     pn = PLAYER_INVALID;
   }
 
