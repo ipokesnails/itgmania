@@ -1360,7 +1360,12 @@ void HandleInputEvents(float fDeltaTime) {
     if (input.GameI.IsValid()) {
       input.MenuI = INPUTMAPPER->GameButtonToMenuButton(input.GameI.button);
       input.pn = INPUTMAPPER->ControllerToPlayerNumber(input.GameI.controller);
+
+      if (input.MenuI == GAME_BUTTON_BACK || //ipokesnails change
+        input.MenuI == GAME_BUTTON_SELECT) { //ipokesnails change
+      input.pn = GAMESTATE->GetMasterPlayerNumber(); //ipokesnails change
     }
+  }
 
     INPUTQUEUE->RememberInput(input);
 
