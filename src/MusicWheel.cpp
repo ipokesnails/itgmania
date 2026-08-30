@@ -2247,10 +2247,10 @@ class LunaMusicWheel : public Luna<MusicWheel> {
   }
   static int GetSelectedSong(T* p, lua_State* L) { // Added by ipokesnails for favorites lists
     Song* pS = p->GetSelectedSong();               // Added by ipokesnails
-    if (pS == nullptr) {                           // Added by ipokesnails
-      lua_pushnil(L);                              // Added by ipokesnails
+    if (pS) {                                      // Added by ipokesnails
+      pS->PushSelf(L);                             // Added by ipokesnails
     } else {                                       // Added by ipokesnails
-      Luna<Song>::push(L, pS);                     // Added by ipokesnails
+      lua_pushnil(L);                              // Added by ipokesnails
     }                                              // Added by ipokesnails
     return 1;                                      // Added by ipokesnails
   }                                                // Added by ipokesnails
