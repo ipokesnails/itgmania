@@ -2245,6 +2245,15 @@ class LunaMusicWheel : public Luna<MusicWheel> {
     lua_pushboolean(L, p->WheelIsLocked());
     return 1;
   }
+  static int GetSelectedSong(T* p, lua_State* L) { // Added by ipokesnails for favorites lists
+    Song* pS = p->GetSelectedSong();               // Added by ipokesnails
+    if (pS == nullptr) {                           // Added by ipokesnails
+      lua_pushnil(L);                              // Added by ipokesnails
+    } else {                                       // Added by ipokesnails
+      Luna<Song>::push(L, pS);                     // Added by ipokesnails
+    }                                              // Added by ipokesnails
+    return 1;                                      // Added by ipokesnails
+  }                                                // Added by ipokesnails
   static int SelectSong(T* p, lua_State* L) {
     if (lua_isnil(L, 1)) {
       lua_pushboolean(L, false);
@@ -2276,6 +2285,7 @@ class LunaMusicWheel : public Luna<MusicWheel> {
   LunaMusicWheel() {
     ADD_METHOD(ChangeSort);
     ADD_METHOD(GetSelectedSection);
+    ADD_METHOD(GetSelectedSong); // Added by ipokesnails
     ADD_METHOD(IsRouletting);
     ADD_METHOD(IsLocked);
     ADD_METHOD(SelectSong);
