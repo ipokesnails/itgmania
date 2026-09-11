@@ -1714,6 +1714,12 @@ void MusicWheel::ChangeMusic(int iDist) {
   m_iSelection += iDist;
   wrap(m_iSelection, m_CurWheelItemData.size());
 
+  while (m_CurWheelItemData[m_iSelection]->m_Type ==  // Added to skip past favorites spacers
+       WheelItemDataType_FavoriteSpacer) {
+    m_iSelection += (iDist > 0 ? 1 : -1);
+    wrap(m_iSelection, m_CurWheelItemData.size());
+  }
+  
   if (REMIND_WHEEL_POSITIONS && HIDE_INACTIVE_SECTIONS) {
     // store the group song index
     for (unsigned idx = 0; idx < m_viWheelPositions.size(); idx++) {
@@ -2055,7 +2061,8 @@ void MusicWheel::SetOpenSections(
       }
 
       if ((d.m_Type == WheelItemDataType_Song ||
-           d.m_Type == WheelItemDataType_Course) &&
+          d.m_Type == WheelItemDataType_Course ||
+          d.m_Type == WheelItemDataType_FavoriteSpacer) &&
           !d.m_sText.empty()) {
         if (m_sExpandedSectionName.empty() ||
             d.m_sText != m_sExpandedSectionName) {
