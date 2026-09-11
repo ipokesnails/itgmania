@@ -291,6 +291,8 @@ void MusicWheelItem::LoadFromWheelItemData(
       sDisplayName = pWID->m_sLabel;
       type = MusicWheelItemType_Custom;
       break;
+    case WheelItemDataType_FavoriteSpacer: // Added favorite spacer
+      break;
   }
 
   m_sprColorPart[type]->SetVisible(true);
@@ -483,6 +485,8 @@ void MusicWheelItem::HandleMessage(const Message& msg) {
       case WheelItemDataType_Custom:
         type = MusicWheelItemType_Custom;
         break;
+      case WheelItemDataType_FavoriteSpacer: // Added favorite spacer
+        break;    
     }
 
     Message setMsg("Set");
