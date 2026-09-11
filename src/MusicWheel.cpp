@@ -869,8 +869,6 @@ void MusicWheel::BuildWheelItemDatas(
           std::map<std::string, std::set<std::string>> favoriteData =
               GetFavoriteWheelData(favoritePlayer);
       
-          int favoriteSectionColorIndex = 0;
-      
           for (const auto& [listName, songDirs] : favoriteData) {
               std::vector<Song*> favoriteSongs;
       
@@ -884,12 +882,8 @@ void MusicWheel::BuildWheelItemDatas(
                   continue;
               }
       
-              RageColor colorSection =
-                  SECTION_COLORS.GetValue(favoriteSectionColorIndex);
-      
-              favoriteSectionColorIndex =
-                  (favoriteSectionColorIndex + 1) % NUM_SECTION_COLORS;
-      
+              RageColor colorSection = RageColor(1.0f, 0.5f, 0.0f, 1.0f);  // Changing the color of favorite categories
+
               arrayWheelItemDatas.push_back(new MusicWheelItemData(
                   WheelItemDataType_Section,
                   nullptr,
