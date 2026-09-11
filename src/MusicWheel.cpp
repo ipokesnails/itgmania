@@ -909,6 +909,21 @@ void MusicWheel::BuildWheelItemDatas(
                       SONGMAN->GetSongColor(pSong),
                       0));
               }
+            int reservedSlots =
+                ((favoriteSongs.size() + 2) / 3) * 3;
+            int spacerCount =
+                reservedSlots - static_cast<int>(favoriteSongs.size());
+            
+            for (int i = 0; i < spacerCount; ++i) {
+                arrayWheelItemDatas.push_back(new MusicWheelItemData(
+                    WheelItemDataType_FavoriteSpacer,
+                    nullptr,
+                    listName,
+                    nullptr,
+                    nullptr,
+                    colorSection,
+                    0));
+              }
           }
       }
       
