@@ -22,6 +22,7 @@ enum WheelItemDataType {
   WheelItemDataType_Course,        /**< A Course on the Wheel. */
   WheelItemDataType_Sort,          /**< A generic sorting item on the Wheel. */
   WheelItemDataType_Custom,        /**< A custom item on the Wheel. */
+  WheelItemDataType_FavoriteSpacer, /**< Invisible spacing for favorite lists. */
   NUM_WheelItemDataType,
   WheelItemDataType_Invalid
 };
