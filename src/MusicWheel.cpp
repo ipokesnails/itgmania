@@ -565,6 +565,96 @@ void MusicWheel::GetSongList(std::vector<Song*>& arraySongs, SortOrder so) {
   }
 }
 
+// Added by ipokesnails for Favorite Lists.
+static std::map<std::string, std::set<std::string>>
+GetFavoriteWheelData(PlayerNumber pn)
+{
+  std::map<std::string, std::set<std::string>> favoriteData;
+
+  Lua* L = LUA->Get();
+
+  // Get the global FavoriteLists table.
+  lua_getglobal(L, "FavoriteLists");
+
+  if (!lua_istable(L, -1)) {
+    lua_pop(L, 1);
+    LUA->Release(L);
+    return favoriteData;
+  }
+
+  // Get FavoriteLists.GetWheelData.
+  lua_getfield(L, -1, "GetWheelData");
+
+  if (!lua_isfunction(L, -1)) {
+    lua_pop(L, 2);
+    LUA->Release(L);
+    return favoriteData;
+  }
+
+  // Remove FavoriteLists table, leaving the function.
+  lua_remove(L, -2);
+
+  // Pass the player number.
+  LuaHelpers::Push(L, pn);
+
+  std::string error = "Error running FavoriteLists.GetWheelData: ";
+
+  if (!LuaHelpers::RunScriptOnStack(L, error, 1, 1, true)) {
+    lua_settop(L, 0);
+    LUA->Release(L);
+    return favoriteData;
+  }
+
+  if (!lua_istable(L, -1)) {
+    LuaHelpers::ReportScriptError(
+        "FavoriteLists.GetWheelData must return a table.");
+    lua_settop(L, 0);
+    LUA->Release(L);
+    return favoriteData;
+  }
+
+  // Returned table:
+  //
+  // {
+  //   ["Favorites"] = {
+  //     ["/Songs/foo/"] = true,
+  //     ["/Songs/bar/"] = true
+  //   },
+  //   ["Boss songs"] = {
+  //     ["/Songs/bar/"] = true
+  //   }
+  // }
+  lua_pushnil(L);
+
+  while (lua_next(L, -2) != 0) {
+    // key = list name, value = song table
+    if (lua_isstring(L, -2) && lua_istable(L, -1)) {
+      std::string listName = lua_tostring(L, -2);
+
+      lua_pushnil(L);
+
+      while (lua_next(L, -2) != 0) {
+        // key = song directory, value = true
+        if (lua_isstring(L, -2) && lua_toboolean(L, -1)) {
+          std::string songDir = lua_tostring(L, -2);
+          favoriteData[listName].insert(songDir);
+        }
+
+        // Remove value, keep key for next lua_next().
+        lua_pop(L, 1);
+      }
+    }
+
+    // Remove the list table, keep the list name for next lua_next().
+    lua_pop(L, 1);
+  }
+
+  lua_settop(L, 0);
+  LUA->Release(L);
+
+  return favoriteData;
+}
+
 void MusicWheel::BuildWheelItemDatas(
     std::vector<MusicWheelItemData*>& arrayWheelItemDatas, SortOrder so) {
   switch (so) {
@@ -767,6 +857,62 @@ void MusicWheel::BuildWheelItemDatas(
       arrayWheelItemDatas.clear();  // clear out the previous wheel items
       arrayWheelItemDatas.reserve(arraySongs.size());
 
+      // Added by ipokesnails for Favorite Lists.
+      //
+      // Favorite sections are built from arraySongs, which has already been
+      // sorted according to the current MusicWheel sort order.  We do not
+      // modify arraySongs, so normal sections below remain unchanged.
+      
+      PlayerNumber favoritePlayer = GAMESTATE->GetMasterPlayerNumber();
+      
+      if (favoritePlayer != PLAYER_INVALID) {
+        std::map<std::string, std::set<std::string>> favoriteData =
+            GetFavoriteWheelData(favoritePlayer);
+      
+        for (const auto& [listName, songDirs] : favoriteData) {
+          std::vector<Song*> favoriteSongs;
+      
+          for (Song* pSong : arraySongs) {
+            if (songDirs.find(pSong->GetSongDir()) != songDirs.end()) {
+              favoriteSongs.push_back(pSong);
+            }
+          }
+      
+          // Don't create an empty favorite folder.
+          if (favoriteSongs.empty()) {
+            continue;
+          }
+      
+          RageColor colorSection =
+              SECTION_COLORS.GetValue(iSectionColorIndex);
+      
+          iSectionColorIndex =
+              (iSectionColorIndex + 1) % NUM_SECTION_COLORS;
+      
+          // Add the favorite list section.
+          arrayWheelItemDatas.push_back(new MusicWheelItemData(
+              WheelItemDataType_Section,
+              nullptr,
+              listName,
+              nullptr,
+              nullptr,
+              colorSection,
+              favoriteSongs.size()));
+      
+          // Add its songs in the current MusicWheel sort order.
+          for (Song* pSong : favoriteSongs) {
+            arrayWheelItemDatas.push_back(new MusicWheelItemData(
+                WheelItemDataType_Song,
+                pSong,
+                listName,
+                nullptr,
+                nullptr,
+                SONGMAN->GetSongColor(pSong),
+                0));
+          }
+        }
+      }
+      
       switch (PREFSMAN->m_MusicWheelUsesSections) {
         case MusicWheelUsesSections_NEVER:
           bUseSections = false;
