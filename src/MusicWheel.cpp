@@ -864,53 +864,52 @@ void MusicWheel::BuildWheelItemDatas(
       // modify arraySongs, so normal sections below remain unchanged.
       
       PlayerNumber favoritePlayer = GAMESTATE->GetMasterPlayerNumber();
-      
+
       if (favoritePlayer != PLAYER_INVALID) {
-        std::map<std::string, std::set<std::string>> favoriteData =
-            GetFavoriteWheelData(favoritePlayer);
+          std::map<std::string, std::set<std::string>> favoriteData =
+              GetFavoriteWheelData(favoritePlayer);
       
-        for (const auto& [listName, songDirs] : favoriteData) {
-          std::vector<Song*> favoriteSongs;
+          int favoriteSectionColorIndex = 0;
       
-          for (Song* pSong : arraySongs) {
-            if (songDirs.find(pSong->GetSongDir()) != songDirs.end()) {
-              favoriteSongs.push_back(pSong);
-            }
+          for (const auto& [listName, songDirs] : favoriteData) {
+              std::vector<Song*> favoriteSongs;
+      
+              for (Song* pSong : arraySongs) {
+                  if (songDirs.find(pSong->GetSongDir()) != songDirs.end()) {
+                      favoriteSongs.push_back(pSong);
+                  }
+              }
+      
+              if (favoriteSongs.empty()) {
+                  continue;
+              }
+      
+              RageColor colorSection =
+                  SECTION_COLORS.GetValue(favoriteSectionColorIndex);
+      
+              favoriteSectionColorIndex =
+                  (favoriteSectionColorIndex + 1) % NUM_SECTION_COLORS;
+      
+              arrayWheelItemDatas.push_back(new MusicWheelItemData(
+                  WheelItemDataType_Section,
+                  nullptr,
+                  listName,
+                  nullptr,
+                  nullptr,
+                  colorSection,
+                  favoriteSongs.size()));
+      
+              for (Song* pSong : favoriteSongs) {
+                  arrayWheelItemDatas.push_back(new MusicWheelItemData(
+                      WheelItemDataType_Song,
+                      pSong,
+                      listName,
+                      nullptr,
+                      nullptr,
+                      SONGMAN->GetSongColor(pSong),
+                      0));
+              }
           }
-      
-          // Don't create an empty favorite folder.
-          if (favoriteSongs.empty()) {
-            continue;
-          }
-      
-          RageColor colorSection =
-              SECTION_COLORS.GetValue(iSectionColorIndex);
-      
-          iSectionColorIndex =
-              (iSectionColorIndex + 1) % NUM_SECTION_COLORS;
-      
-          // Add the favorite list section.
-          arrayWheelItemDatas.push_back(new MusicWheelItemData(
-              WheelItemDataType_Section,
-              nullptr,
-              listName,
-              nullptr,
-              nullptr,
-              colorSection,
-              favoriteSongs.size()));
-      
-          // Add its songs in the current MusicWheel sort order.
-          for (Song* pSong : favoriteSongs) {
-            arrayWheelItemDatas.push_back(new MusicWheelItemData(
-                WheelItemDataType_Song,
-                pSong,
-                listName,
-                nullptr,
-                nullptr,
-                SONGMAN->GetSongColor(pSong),
-                0));
-          }
-        }
       }
       
       switch (PREFSMAN->m_MusicWheelUsesSections) {
