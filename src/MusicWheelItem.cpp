@@ -292,7 +292,7 @@ void MusicWheelItem::LoadFromWheelItemData(
       type = MusicWheelItemType_Custom;
       break;
     case WheelItemDataType_FavoriteSpacer: // Added favorite spacer
-      break;
+      return;
   }
 
   m_sprColorPart[type]->SetVisible(true);
@@ -442,6 +442,11 @@ void MusicWheelItem::HandleMessage(const Message& msg) {
       msg == Message_PlayerProfileSet) {
     const MusicWheelItemData* pWID =
         dynamic_cast<const MusicWheelItemData*>(m_pData);
+    
+    if (pWID->m_Type == WheelItemDataType_FavoriteSpacer) { // Added case for favorite spacer
+        return;
+    }
+    
     MusicWheelItemType type = MusicWheelItemType_Invalid;
 
     switch (pWID->m_Type) {
@@ -484,8 +489,6 @@ void MusicWheelItem::HandleMessage(const Message& msg) {
         break;
       case WheelItemDataType_Custom:
         type = MusicWheelItemType_Custom;
-        break;
-      case WheelItemDataType_FavoriteSpacer: // Added favorite spacer
         break;    
     }
 
