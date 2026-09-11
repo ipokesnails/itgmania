@@ -16,13 +16,13 @@ enum WheelItemDataType {
   WheelItemDataType_Section,       /**< A general section on the Wheel. */
   WheelItemDataType_ParentSection, /**< A parent section on the Wheel. */
   WheelItemDataType_Song,          /**< A Song on the Wheel. */
+  WheelItemDataType_FavoriteSpacer, /**< Invisible spacing for favorite lists. */
   WheelItemDataType_Roulette,      /**< The roulette section on the Wheel. */
   WheelItemDataType_Random,        /**< The random section on the Wheel. */
   WheelItemDataType_Portal,        /**< The portal section on the Wheel. */
   WheelItemDataType_Course,        /**< A Course on the Wheel. */
   WheelItemDataType_Sort,          /**< A generic sorting item on the Wheel. */
   WheelItemDataType_Custom,        /**< A custom item on the Wheel. */
-  WheelItemDataType_FavoriteSpacer, /**< Invisible spacing for favorite lists. */
   NUM_WheelItemDataType,
   WheelItemDataType_Invalid
 };
