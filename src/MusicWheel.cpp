@@ -1892,6 +1892,8 @@ bool MusicWheel::Select()  // return true if this selection ends the screen
       } else {
         return false;
       }
+    case WheelItemDataType_FavoriteSpacer: // Added case for favorite spacer
+      return false;
     default:
       return true;
   }
