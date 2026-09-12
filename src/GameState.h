@@ -239,6 +239,7 @@ class GameState {
   std::string sExpandedParentSectionName;
 
   std::string sLastOpenSection;
+  std::string sLastSelectedFavoriteList;  // To help stop the game from defaulting to favorite lists after leaving a song
 
   static int GetNumStagesMultiplierForSong(const Song* pSong);
   static int GetNumStagesForSongAndStyleType(const Song* pSong, StyleType st);
