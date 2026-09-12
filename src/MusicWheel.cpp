@@ -903,7 +903,9 @@ void MusicWheel::BuildWheelItemDatas(
                       nullptr,
                       nullptr,
                       SONGMAN->GetSongColor(pSong),
-                      0));
+                      0,
+                      "",
+                      true));
               }
               int reservedSlots =
                   ((favoriteSongs.size() + 2) / 3) * 3;
@@ -1874,6 +1876,14 @@ bool MusicWheel::Select()  // return true if this selection ends the screen
     return false;
   }
 
+  // Added to help stop returning to the favorites category instead of the selected category after leaving a song
+  if (pSelection->m_Type == WheelItemDataType_Song && 
+      pSelection->m_IsFavorite) {
+      m_sSelectedFavoriteList = pSelection->m_sText;
+  } else {
+      m_sSelectedFavoriteList.clear();
+  }
+  
   switch (m_CurWheelItemData[m_iSelection]->m_Type) {
     case WheelItemDataType_Roulette:
       StartRoulette();
