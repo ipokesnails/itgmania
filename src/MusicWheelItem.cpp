@@ -58,7 +58,8 @@ MusicWheelItemData::MusicWheelItemData(
       m_iSectionCount(iSectionCount),
       m_sParentSection(sParentSection),
       m_sLabel(""),
-      m_pAction() {}
+      m_pAction(),
+      m_IsFavorite(bIsFavorite) {}  // For adding favorite list colors
 
 MusicWheelItem::MusicWheelItem(std::string sType) : WheelItemBase(sType) {
   GRADES_SHOW_MACHINE.Load(sType, "GradesShowMachine");
