@@ -891,7 +891,9 @@ void MusicWheel::BuildWheelItemDatas(
                   nullptr,
                   nullptr,
                   colorSection,
-                  favoriteSongs.size()));
+                  favoriteSongs.size(),
+                  "",       // Adding arguments for favorite colors
+                  true));   // Adding arguments for favorite colors
       
               for (Song* pSong : favoriteSongs) {
                   arrayWheelItemDatas.push_back(new MusicWheelItemData(
