@@ -49,7 +49,7 @@ XToString(MusicWheelItemType);
 MusicWheelItemData::MusicWheelItemData(
     WheelItemDataType type, Song* pSong, std::string sSectionName,
     Course* pCourse, Group* pGroup, RageColor color, int iSectionCount,
-    std::string sParentSection)
+    std::string sParentSection, bool bIsFavorite)
     : WheelItemBaseData(type, sSectionName, color),
       m_pCourse(pCourse),
       m_pSong(pSong),
