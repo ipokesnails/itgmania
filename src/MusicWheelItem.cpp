@@ -346,6 +346,7 @@ void MusicWheelItem::LoadFromWheelItemData(
     msg.SetParam("ParentSection", pWID->m_sParentSection);
     msg.SetParam(
         "IsParentSection", pWID->m_Type == WheelItemDataType_ParentSection);
+    msg.SetParam("IsFavorite", pWID->m_IsFavorite);
 
     this->HandleMessage(msg);
   }
@@ -503,6 +504,7 @@ void MusicWheelItem::HandleMessage(const Message& msg) {
     setMsg.SetParam("ParentSection", pWID->m_sParentSection);
     setMsg.SetParam(
         "IsParentSection", pWID->m_Type == WheelItemDataType_ParentSection);
+    setMsg.SetParam("IsFavorite", pWID->m_IsFavorite);
     this->HandleMessage(setMsg);
 
     RefreshGrades();
