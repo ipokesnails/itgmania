@@ -76,12 +76,13 @@ struct MusicWheelItemData : public WheelItemBaseData {
         m_Flags(),
         m_iSectionCount(0),
         m_sParentSection(""),
+        bool m_IsFavorite,  // Adding color preferences for favorite lists
         m_sLabel(""),
         m_pAction() {}
   MusicWheelItemData(
       WheelItemDataType type, Song* pSong, std::string sSectionName,
       Course* pCourse, Group* pGroup, RageColor color, int iSectionCount,
-      std::string sParentSection = "");
+      std::string sParentSection = "", bool bIsFavorite = false);
 
   Course* m_pCourse;
   Song* m_pSong;
