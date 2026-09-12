@@ -353,40 +353,79 @@ bool MusicWheel::SelectSong(const Song* p) {
   unsigned i;
   std::vector<MusicWheelItemData*>& from =
       getWheelItemsData(GAMESTATE->m_SortOrder);
-  if (GAMESTATE->sLastOpenSection != "" &&
-      (GAMESTATE->m_SortOrder == SORT_PREFERRED ||
-       GAMESTATE->m_SortOrder == SORT_METER)) {
-    // Return to the last open section if it is defined and exists in the
-    // current sort
+
+  bool sectionFound = false;
+
+  if (GAMESTATE->sLastSelectedFavoriteList != "") {
+    // Return to the exact favorite list the song was selected from.
     for (i = 0; i < from.size(); i++) {
-      if (from[i]->m_sText == GAMESTATE->sLastOpenSection) {
-        // make its group the currently expanded group
+      if (from[i]->m_Type == WheelItemDataType_Section &&
+          from[i]->m_IsFavorite &&
+          from[i]->m_sText == GAMESTATE->sLastSelectedFavoriteList) {
         SetOpenSection(from[i]->m_sText);
+        sectionFound = true;
         break;
       }
     }
-  } else {
+  } else if (GAMESTATE->sLastOpenSection != "" &&
+             (GAMESTATE->m_SortOrder == SORT_PREFERRED ||
+              GAMESTATE->m_SortOrder == SORT_METER)) {
+    // Return to the last open section, but never restore a favorite list
+    // unless the song was explicitly selected from that favorite list.
     for (i = 0; i < from.size(); i++) {
-      if (from[i]->m_pSong == p) {
+      if (from[i]->m_sText == GAMESTATE->sLastOpenSection &&
+          !from[i]->m_IsFavorite) {
+        SetOpenSection(from[i]->m_sText);
+        sectionFound = true;
+        break;
+      }
+    }
+  }
+
+  // If we didn't restore a section above, find the song itself.
+  if (!sectionFound) {
+    for (i = 0; i < from.size(); i++) {
+      if (from[i]->m_pSong == p &&
+          !from[i]->m_IsFavorite) {
         if (!from[i]->m_sParentSection.empty()) {
           SetOpenSections(from[i]->m_sParentSection, from[i]->m_sText);
         } else {
-          // make its group the currently expanded group
           SetOpenSection(from[i]->m_sText);
         }
+        sectionFound = true;
         break;
       }
     }
   }
-  if (i == from.size()) {
+
+  if (!sectionFound) {
     return false;
   }
 
+  // Select the correct copy of the song in the now-open wheel.
   for (i = 0; i < m_CurWheelItemData.size(); i++) {
-    if (GetCurWheelItemData(i)->m_pSong == p) {
-      m_iSelection = i;  // select it
+    const MusicWheelItemData* item = GetCurWheelItemData(i);
+
+    if (item->m_pSong != p) {
+      continue;
+    }
+
+    if (!GAMESTATE->sLastSelectedFavoriteList.empty()) {
+      // The song came from a specific favorite list.
+      if (item->m_IsFavorite &&
+          item->m_sText == GAMESTATE->sLastSelectedFavoriteList) {
+        m_iSelection = i;
+        break;
+      }
+    } else {
+      // The song came from the normal wheel.
+      if (!item->m_IsFavorite) {
+        m_iSelection = i;
+        break;
+      }
     }
   }
+
   return true;
 }
 
@@ -1872,16 +1911,17 @@ bool MusicWheel::Select()  // return true if this selection ends the screen
     return false;
   }
 
-  if (!WheelBase::Select()) {
-    return false;
+  // Added to help stop returning to the favorites category instead of the selected category after leaving a song
+  if (pSelection->m_Type == WheelItemDataType_Song &&
+      pSelection->m_IsFavorite) {
+    GAMESTATE->sLastSelectedFavoriteList = pSelection->m_sText;
+  } else {
+    GAMESTATE->sLastSelectedFavoriteList.clear();
   }
 
-  // Added to help stop returning to the favorites category instead of the selected category after leaving a song
-  if (pSelection->m_Type == WheelItemDataType_Song && 
-      pSelection->m_IsFavorite) {
-      m_sSelectedFavoriteList = pSelection->m_sText;
-  } else {
-      m_sSelectedFavoriteList.clear();
+
+  if (!WheelBase::Select()) {
+    return false;
   }
   
   switch (m_CurWheelItemData[m_iSelection]->m_Type) {
