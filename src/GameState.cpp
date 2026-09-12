@@ -189,6 +189,7 @@ GameState::GameState()
 
   m_bDopefish = false;
   sLastOpenSection = "";
+  sLastSelectedFavoriteList = "";  // To help stop the game from defaulting to favorite lists when exiting a song
   sExpandedSectionName = "";
   sExpandedParentSectionName = "";
 
