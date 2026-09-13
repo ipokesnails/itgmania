@@ -996,6 +996,10 @@ void ScreenOptions::ProcessMenuStart(const InputEventPlus& input) {
             m_sprLineHighlight[pn]->SetVisible(false);
             m_textExplanation[pn].SetVisible(false);
 
+            Message msg("PlayerOptionsFinished");
+            msg.SetParam("PlayerNumber", pn);
+            MESSAGEMAN->Broadcast(msg);
+          
             if (!AllHumanPlayersFinished()) { // Added by ipokesnails for individual options menu completion
                 return;
             }
