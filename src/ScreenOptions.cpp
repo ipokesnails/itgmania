@@ -522,9 +522,14 @@ bool ScreenOptions::Input(const InputEventPlus& input) {
   }
 
   if (!GAMESTATE->IsHumanPlayer(input.pn)) {
-    return false;
+      return false;
   }
-
+  
+  if (m_bPlayerFinished[input.pn] &&
+      input.MenuI != GAME_BUTTON_BACK) { // Added by ipokesnails for individual options dismissal
+      return false;
+  }
+  
   if (input.type == IET_RELEASE) {
     switch (input.MenuI) {
       case GAME_BUTTON_START:
@@ -986,6 +991,10 @@ void ScreenOptions::ProcessMenuStart(const InputEventPlus& input) {
         if (m_InputMode == INPUTMODE_INDIVIDUAL &&
             GAMESTATE->GetNumHumanPlayers() > 1) {
             m_bPlayerFinished[pn] = true;
+
+            m_Cursor[pn].SetVisible(false);
+            m_sprLineHighlight[pn]->SetVisible(false);
+            m_textExplanation[pn].SetVisible(false);
 
             if (!AllHumanPlayersFinished()) { // Added by ipokesnails for individual options menu completion
                 return;
