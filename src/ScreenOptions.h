@@ -112,10 +112,10 @@ class ScreenOptions : public ScreenWithMenuElements {
       const InputEventPlus& input, int iDir);  // iDir == -1 or iDir == +1
 
   int GetCurrentRow(PlayerNumber pn = PLAYER_1) const {
-    return m_iCurrentRow[pn];
-  }
-  bool AllAreOnLastRow() const;
-  OptionRow* GetRow(int iRow) const { return m_pRows[iRow]; }
+      return m_iCurrentRow[pn];
+    }
+    bool AllAreOnLastRow() const; // Added by ipokesnails for individual options menu completion
+    OptionRow* GetRow(int iRow) const { return m_pRows[iRow]; }
   // void SetOptionRowFromName( const std::string& nombre );
   int GetNumRows() const { return static_cast<int>(m_pRows.size()); }
 
@@ -144,13 +144,14 @@ class ScreenOptions : public ScreenWithMenuElements {
 
   int m_iFocusX[NUM_PLAYERS];
   bool m_bWasOnExit[NUM_PLAYERS];
-
+  
   /** @brief True if at least one player pressed Start after selecting the song.
    *
    * TRICKY: People hold Start to get to PlayerOptions, then the repeat events
    * cause them to zip to the bottom. So, ignore Start repeat events until
    * we've seen one first pressed event. */
   bool m_bGotAtLeastOneStartPressed[NUM_PLAYERS];
+  bool m_bPlayerFinished[NUM_PLAYERS];
 
   // actors
   ActorFrame m_frameContainer;
