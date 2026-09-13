@@ -952,38 +952,50 @@ void ScreenOptions::ProcessMenuStart(const InputEventPlus& input) {
   }
 
   // Check whether Start ends this screen.
-  {
+{
     bool bEndThisScreen = false;
 
     // If we didn't apply and return above in NAV_THREE_KEY_MENU, then the
     // selection sets a screen.
     if (m_OptionsNavigation == NAV_THREE_KEY_MENU) {
-      bEndThisScreen = true;
+        bEndThisScreen = true;
     }
 
     // If there's no exit row, then pressing Start on any row ends the screen.
     if (!SHOW_EXIT_ROW) {
-      bEndThisScreen = true;
+        bEndThisScreen = true;
     }
 
     // If all players are on "Exit"
     if (AllAreOnLastRow()) {
-      bEndThisScreen = true;
+        bEndThisScreen = true;
     }
 
     // Don't accept START to go to the next screen if we're still transitioning
     // in.
     if (bEndThisScreen &&
         (input.type != IET_FIRST_PRESS || IsTransitioning())) {
-      return;
+        return;
     }
 
     if (bEndThisScreen) {
-      m_SoundStart.PlayCopy(true);
-      this->BeginFadingOut();
-      return;
+        m_SoundStart.PlayCopy(true);
+
+        // In individual player mode, allow each player to dismiss their own
+        // options independently.
+        if (m_InputMode == INPUTMODE_INDIVIDUAL &&
+            GAMESTATE->GetNumHumanPlayers() > 1) {
+            m_bPlayerFinished[pn] = true;
+
+            if (!AllHumanPlayersFinished()) { // Added by ipokesnails for individual options menu completion
+                return;
+            }
+        }
+
+        this->BeginFadingOut();
+        return;
     }
-  }
+}
 
   if (row.GetFirstItemGoesDown()) {
     int iChoiceInRow = row.GetChoiceInRowWithFocus(pn);
