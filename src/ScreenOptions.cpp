@@ -282,6 +282,7 @@ void ScreenOptions::RestartOptions() {
     m_iCurrentRow[p] = -1;
     m_iFocusX[p] = -1;
     m_bWasOnExit[p] = false;
+    m_bPlayerFinished[p] = false;
 
     // put focus on the first enabled row
     for (unsigned r = 0; r < m_pRows.size(); r++) {
@@ -316,7 +317,10 @@ void ScreenOptions::BeginScreen() {
 
   RestartOptions();
 
-  FOREACH_PlayerNumber(p) m_bGotAtLeastOneStartPressed[p] = false;
+  FOREACH_PlayerNumber(p) {
+    m_bGotAtLeastOneStartPressed[p] = false;
+    m_bPlayerFinished[p] = false;
+}
 
   ON_COMMAND(m_frameContainer);
 
@@ -871,6 +875,15 @@ bool ScreenOptions::AllAreOnLastRow() const {
       return false;
     }
   }
+  return true;
+}
+
+bool ScreenOptions::AllHumanPlayersFinished() const { // Added for individual options menu completion
+  FOREACH_HumanPlayer(p) {
+    if (!m_bPlayerFinished[p])
+      return false;
+  }
+
   return true;
 }
 
