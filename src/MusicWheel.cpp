@@ -700,7 +700,7 @@ GetFavoriteWheelData(PlayerNumber pn)
   return favoriteData;
 }
 
-*/
+                                                                                                                          //*/
 
 void MusicWheel::BuildWheelItemDatas(
     std::vector<MusicWheelItemData*>& arrayWheelItemDatas, SortOrder so) {
@@ -973,7 +973,7 @@ void MusicWheel::BuildWheelItemDatas(
                       0));
               }
           } 
-      } */
+      }                                                                                                                                 //*/
       
       switch (PREFSMAN->m_MusicWheelUsesSections) {
         case MusicWheelUsesSections_NEVER:
