@@ -605,9 +605,10 @@ void MusicWheel::GetSongList(std::vector<Song*>& arraySongs, SortOrder so) {
 }
 
 // Added by ipokesnails for Favorite Lists.
-static std::map<std::string, std::set<std::string>>
 
                                                         /*Commenting out more favorite stuff
+
+static std::map<std::string, std::set<std::string>>
 
 GetFavoriteWheelData(PlayerNumber pn)
 {
