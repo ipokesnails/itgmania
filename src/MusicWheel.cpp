@@ -655,7 +655,7 @@ GetFavoriteWheelData(PlayerNumber pn)
     return favoriteData;
   }
 
-  */
+  
   
   // Returned table:
   //
@@ -698,6 +698,8 @@ GetFavoriteWheelData(PlayerNumber pn)
 
   return favoriteData;
 }
+
+*/
 
 void MusicWheel::BuildWheelItemDatas(
     std::vector<MusicWheelItemData*>& arrayWheelItemDatas, SortOrder so) {
