@@ -901,6 +901,8 @@ void MusicWheel::BuildWheelItemDatas(
       // Favorite sections are built from arraySongs, which has already been
       // sorted according to the current MusicWheel sort order.  We do not
       // modify arraySongs, so normal sections below remain unchanged.
+
+                                                                    /*  Temporary removal of favorites for testing
       
       PlayerNumber favoritePlayer = GAMESTATE->GetMasterPlayerNumber();
 
@@ -962,8 +964,8 @@ void MusicWheel::BuildWheelItemDatas(
                       colorSection,
                       0));
               }
-          }
-      }
+          } 
+      } */
       
       switch (PREFSMAN->m_MusicWheelUsesSections) {
         case MusicWheelUsesSections_NEVER:
