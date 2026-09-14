@@ -606,7 +606,7 @@ void MusicWheel::GetSongList(std::vector<Song*>& arraySongs, SortOrder so) {
 
 // Added by ipokesnails for Favorite Lists.
 
-                                                        /*Commenting out more favorite stuff
+                                                                //Temporary removal of favorite stuff for testing
 
 static std::map<std::string, std::set<std::string>>
 
@@ -910,7 +910,7 @@ void MusicWheel::BuildWheelItemDatas(
       // sorted according to the current MusicWheel sort order.  We do not
       // modify arraySongs, so normal sections below remain unchanged.
 
-                                                                    /*  Temporary removal of favorites for testing
+                                                                            //  Temporary removal of favorites for testing
       
       PlayerNumber favoritePlayer = GAMESTATE->GetMasterPlayerNumber();
 
