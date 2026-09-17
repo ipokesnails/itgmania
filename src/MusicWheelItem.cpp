@@ -228,7 +228,8 @@ void MusicWheelItem::LoadFromWheelItemData(
 
       m_WheelNotifyIcon.SetFlags(pWID->m_Flags);
       m_WheelNotifyIcon.SetVisible(true);
-      RefreshGrades();
+      // Temporarily disabling refreshgrades for testing
+      //RefreshGrades();
       break;
     case WheelItemDataType_ParentSection: {
       sDisplayName = SONGMAN->ShortenSeriesName(
