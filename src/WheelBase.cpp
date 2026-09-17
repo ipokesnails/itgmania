@@ -472,7 +472,9 @@ void WheelBase::RebuildWheelItems(int iDist) {
         pData->m_sText == m_sExpandedSectionName);
   }
 
-  for (int i = 0; i < (int)items.size(); i++) {
+    for (int i = iFirst; i <= iLast; i++) {
+  // Temporarily replacing the loop condition for testing
+  //for (int i = 0; i < (int)items.size(); i++) {
     int iIndex = iFirstVisibleIndex + i;
     wrap(iIndex, data.size());
     const WheelItemBaseData* pData = data[iIndex];
