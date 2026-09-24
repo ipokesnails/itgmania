@@ -224,7 +224,7 @@ void MusicWheelItem::LoadFromWheelItemData(
       //m_TextBanner.SetFromSong(pWID->m_pSong);    // This line was commented out
       // We can do this manually if we wanted... maybe have a metric for
       // overrides? -aj
-      m_TextBanner.SetDiffuse(pWID->m_color);
+      //m_TextBanner.SetDiffuse(pWID->m_color);     // This line was commented out
       m_TextBanner.SetVisible(false);               // This line was changed from true to false              
 
       m_WheelNotifyIcon.SetFlags(pWID->m_Flags);
