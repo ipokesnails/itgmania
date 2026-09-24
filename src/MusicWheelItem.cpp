@@ -228,7 +228,9 @@ void MusicWheelItem::LoadFromWheelItemData(
 
       m_WheelNotifyIcon.SetFlags(pWID->m_Flags);
       m_WheelNotifyIcon.SetVisible(true);
-      RefreshGrades();
+                                                      // PERFORMANCE TESTING CHANGES
+                                                      // Song score displays hidden
+      //RefreshGrades();
       break;
     case WheelItemDataType_ParentSection: {
       sDisplayName = SONGMAN->ShortenSeriesName(
