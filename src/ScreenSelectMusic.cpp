@@ -1973,9 +1973,15 @@ void ScreenSelectMusic::AfterMusicChange() {
 
   // Cancel any previous, incomplete requests for song assets,
   // since we need new ones.
+  LOG->Trace("SELECT ASSETS: before Abort");  //  Added log text
   m_BackgroundLoader.Abort();
+  LOG->Trace("SELECT ASSETS: after Abort");  //  Added log text
 
   g_bCDTitleWaiting = false;
+
+                              // PERFORMANCE TETING CHANGES
+                              // Removing banner loading
+  /*
   if (!g_sCDTitlePath.empty() || g_bWantFallbackCdTitle) {
     LOG->Trace("cache \"%s\"", g_sCDTitlePath.c_str());
     m_BackgroundLoader.CacheFile(g_sCDTitlePath);  // empty OK
@@ -1983,7 +1989,8 @@ void ScreenSelectMusic::AfterMusicChange() {
   }
 
   g_bBannerWaiting = false;
-
+*/ 
+  
                               // PERFORMANCE TETING CHANGES
                               // Removing banner loading
   
