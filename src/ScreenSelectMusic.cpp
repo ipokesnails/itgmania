@@ -1983,6 +1983,11 @@ void ScreenSelectMusic::AfterMusicChange() {
   }
 
   g_bBannerWaiting = false;
+
+                              // PERFORMANCE TETING CHANGES
+                              // Removing banner loading
+  
+  /*
   if (bWantBanner) {
     LOG->Trace("LoadFromCachedBanner(%s)", g_sBannerPath.c_str());
     // TODO: We should probably have some fallback banner for videos, but for
@@ -1995,8 +2000,9 @@ void ScreenSelectMusic::AfterMusicChange() {
       g_bBannerWaiting = false;
     } else {
       if (m_Banner.LoadFromCachedBanner(g_sBannerPath)) {
-        /* If the high-res banner is already loaded, just delay before
-         * loading it, so the low-res one has time to fade in. */
+                  /* If the high-res banner is already loaded, just delay before
+                   * loading it, so the low-res one has time to fade in. */
+        /*  
         if (!TEXTUREMAN->IsTextureRegistered(
                 Sprite::SongBannerTexture(g_sBannerPath))) {
           m_BackgroundLoader.CacheFile(g_sBannerPath);
@@ -2005,7 +2011,7 @@ void ScreenSelectMusic::AfterMusicChange() {
         g_bBannerWaiting = true;
       }
     }
-  }
+  } */
 
   // Don't stop music if it's already playing the right file.
   g_bSampleMusicWaiting = false;
