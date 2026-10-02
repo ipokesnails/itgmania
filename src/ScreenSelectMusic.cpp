@@ -2021,7 +2021,15 @@ void ScreenSelectMusic::AfterMusicChange() {
   } */
 
   // Don't stop music if it's already playing the right file.
+
+  
+  LOG->Trace("SAMPLE MUSIC DISABLED FOR PERFORMANCE TEST");
   g_bSampleMusicWaiting = false;
+
+                              // PERFORMANCE TETING CHANGES
+                              // Removing song samples
+  
+  /*
   if (!m_MusicWheel.IsRouletting() &&
       SOUND->GetMusicPath() != m_sSampleMusicToPlay) {
     SOUND->StopMusic();
@@ -2031,7 +2039,7 @@ void ScreenSelectMusic::AfterMusicChange() {
         g_bSampleMusicWaiting = true;
       }
     }
-  }
+  }*/
 
   g_StartedLoadingAt.Touch();
 
