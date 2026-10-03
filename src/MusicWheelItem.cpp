@@ -516,18 +516,18 @@ void MusicWheelItem::HandleMessage(const Message& msg) {
                                                 // PERFORMANCE TESTING
                                                 // Prevent song MusicWheelItems from dispatching the Set message
                                                 // Allowing one at a time
+
 if (msg == "Set") {
     const MusicWheelItemData* pWID =
         dynamic_cast<const MusicWheelItemData*>(m_pData);
 
     if (pWID && pWID->m_Type == WheelItemDataType_Song) {
 
-        m_sprNormalPart[MusicWheelItemType_Course]->HandleMessage(msg);
-        m_sprNormalPart[MusicWheelItemType_Sort]->HandleMessage(msg);
-        m_sprNormalPart[MusicWheelItemType_Mode]->HandleMessage(msg);
-        m_sprNormalPart[MusicWheelItemType_Random]->HandleMessage(msg);
-        m_sprNormalPart[MusicWheelItemType_Portal]->HandleMessage(msg);
-        m_sprNormalPart[MusicWheelItemType_Custom]->HandleMessage(msg);
+        m_sprNormalPart[MusicWheelItemType_ParentExpanded]->HandleMessage(msg);
+        m_sprNormalPart[MusicWheelItemType_ParentCollapsed]->HandleMessage(msg);
+        m_sprNormalPart[MusicWheelItemType_SectionExpanded]->HandleMessage(msg);
+        //m_sprNormalPart[MusicWheelItemType_SectionCollapsed]->HandleMessage(msg);
+        //m_sprNormalPart[MusicWheelItemType_Roulette]->HandleMessage(msg);
 
         return;
     }
