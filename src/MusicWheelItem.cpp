@@ -524,8 +524,8 @@ if (msg == "Set") {
     if (pWID && pWID->m_Type == WheelItemDataType_Song) {
 
         //m_sprNormalPart[MusicWheelItemType_ParentExpanded]->HandleMessage(msg);
-        m_sprNormalPart[MusicWheelItemType_ParentCollapsed]->HandleMessage(msg);
-        //m_sprNormalPart[MusicWheelItemType_SectionExpanded]->HandleMessage(msg);
+        //m_sprNormalPart[MusicWheelItemType_ParentCollapsed]->HandleMessage(msg);
+        m_sprNormalPart[MusicWheelItemType_SectionExpanded]->HandleMessage(msg);
         //m_sprNormalPart[MusicWheelItemType_SectionCollapsed]->HandleMessage(msg);
         //m_sprNormalPart[MusicWheelItemType_Roulette]->HandleMessage(msg);
 
