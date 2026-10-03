@@ -515,15 +515,16 @@ void MusicWheelItem::HandleMessage(const Message& msg) {
 
                                                 // PERFORMANCE TESTING
                                                 // Prevent song MusicWheelItems from dispatching the Set message
-                                                // to their child actors.
-  if (msg == "Set") { //
-      const MusicWheelItemData* pWID = //
-          dynamic_cast<const MusicWheelItemData*>(m_pData); //
-
-      if (pWID && pWID->m_Type == WheelItemDataType_Song) { //
-          return; //
-      } //
-  } //
+                                                // Allowing one at a time
+  if (msg == "Set") {
+      const MusicWheelItemData* pWID =
+          dynamic_cast<const MusicWheelItemData*>(m_pData);
+  
+      if (pWID && pWID->m_Type == WheelItemDataType_Song) {
+          m_sprColorPart[MusicWheelItemType_Song]->HandleMessage(msg);
+          return;
+      }
+  }
 
 WheelItemBase::HandleMessage(msg);
 }
