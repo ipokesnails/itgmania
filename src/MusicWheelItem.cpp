@@ -521,7 +521,7 @@ void MusicWheelItem::HandleMessage(const Message& msg) {
         dynamic_cast<const MusicWheelItemData*>(m_pData);
 
     if (pWID && pWID->m_Type == WheelItemDataType_Song) {
-        m_TextBanner.HandleMessage(msg);
+        m_WheelNotifyIcon.HandleMessage(msg);
         return;
     }
 }
