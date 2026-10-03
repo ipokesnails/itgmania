@@ -523,7 +523,9 @@ if (msg == "Set") {
     if (pWID && pWID->m_Type == WheelItemDataType_Song) {
 
         FOREACH_ENUM(MusicWheelItemType, i) {
-            m_sprOverPart[i]->HandleMessage(msg);
+            if (m_pText[i]) {
+                m_pText[i]->HandleMessage(msg);
+            }
         }
 
         return;
