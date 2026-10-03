@@ -517,14 +517,14 @@ void MusicWheelItem::HandleMessage(const Message& msg) {
                                                 // Prevent song MusicWheelItems from dispatching the Set message
                                                 // Allowing one at a time
   if (msg == "Set") {
-      const MusicWheelItemData* pWID =
-          dynamic_cast<const MusicWheelItemData*>(m_pData);
-  
-      if (pWID && pWID->m_Type == WheelItemDataType_Song) {
-          m_sprOverPart[MusicWheelItemType_Song]->HandleMessage(msg);
-          return;
-      }
-  }
+    const MusicWheelItemData* pWID =
+        dynamic_cast<const MusicWheelItemData*>(m_pData);
+
+    if (pWID && pWID->m_Type == WheelItemDataType_Song) {
+        m_TextBanner.HandleMessage(msg);
+        return;
+    }
+}
 
 WheelItemBase::HandleMessage(msg);
 }
