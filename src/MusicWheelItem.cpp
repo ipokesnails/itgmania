@@ -516,7 +516,7 @@ void MusicWheelItem::HandleMessage(const Message& msg) {
                                                 // PERFORMANCE TESTING
                                                 // Prevent song MusicWheelItems from dispatching the Set message
                                                 // to their child actors.
-  if (msg == Message("Set")) { //
+  if (msg == "Set") { //
       const MusicWheelItemData* pWID = //
           dynamic_cast<const MusicWheelItemData*>(m_pData); //
 
