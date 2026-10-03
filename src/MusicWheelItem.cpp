@@ -513,7 +513,19 @@ void MusicWheelItem::HandleMessage(const Message& msg) {
     RefreshGrades();
   }
 
-  WheelItemBase::HandleMessage(msg);
+                                                // PERFORMANCE TESTING
+                                                // Prevent song MusicWheelItems from dispatching the Set message
+                                                // to their child actors.
+  if (msg == Message("Set")) { //
+      const MusicWheelItemData* pWID = //
+          dynamic_cast<const MusicWheelItemData*>(m_pData); //
+
+      if (pWID && pWID->m_Type == WheelItemDataType_Song) { //
+          return; //
+      } //
+  } //
+
+WheelItemBase::HandleMessage(msg);
 }
 
 /*
